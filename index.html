@@ -3,9 +3,955 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Гетбух</title>
+  <title>Гетбух — бухгалтерия для селлеров маркетплейсов</title>
+  <style>
+    :root {
+      --ink: #142321;
+      --muted: #586461;
+      --paper: #fbf7ef;
+      --paper-strong: #fffdf8;
+      --line: #d8cbbb;
+      --teal: #1f6d69;
+      --teal-dark: #104f4c;
+      --sage: #d7e6d9;
+      --cranberry: #8f2438;
+      --gold: #c5913a;
+      --blue: #ddebf0;
+      --shadow: 0 24px 70px rgba(20, 35, 33, .12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        linear-gradient(90deg, rgba(31, 109, 105, .06) 1px, transparent 1px) 0 0 / 56px 56px,
+        linear-gradient(180deg, #fffdf8 0%, var(--paper) 42%, #f5eee4 100%);
+      font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 11% 18%, rgba(215, 230, 217, .65), transparent 28%),
+        radial-gradient(circle at 90% 8%, rgba(221, 235, 240, .8), transparent 26%);
+    }
+
+    a {
+      color: inherit;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+
+    .page {
+      overflow: hidden;
+    }
+
+    .container {
+      width: min(1140px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .topline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 22px 0 12px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 900;
+      letter-spacing: .02em;
+      text-transform: uppercase;
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      border: 2px solid var(--ink);
+      border-radius: 8px;
+      color: var(--paper-strong);
+      background: var(--teal);
+      box-shadow: 5px 5px 0 var(--gold);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 22px;
+      line-height: 1;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .nav a {
+      text-decoration: none;
+    }
+
+    .hero {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(310px, .92fr);
+      gap: 44px;
+      align-items: center;
+      padding: 54px 0 86px;
+    }
+
+    .hero-copy {
+      position: relative;
+      z-index: 2;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin: 0 0 18px;
+      color: var(--teal-dark);
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 30px;
+      height: 2px;
+      background: var(--cranberry);
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      line-height: 1.04;
+      letter-spacing: 0;
+    }
+
+    h1 {
+      max-width: 760px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(42px, 6.6vw, 86px);
+      font-weight: 700;
+    }
+
+    h2 {
+      max-width: 760px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(32px, 4.2vw, 56px);
+      font-weight: 700;
+    }
+
+    h3 {
+      font-size: 21px;
+      font-weight: 900;
+    }
+
+    .lead {
+      max-width: 680px;
+      margin: 24px 0 0;
+      color: #34413e;
+      font-size: clamp(19px, 2.1vw, 24px);
+      line-height: 1.45;
+    }
+
+    .hero-actions,
+    .final-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 14px;
+      margin-top: 32px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 52px;
+      padding: 14px 22px;
+      border: 2px solid var(--ink);
+      border-radius: 8px;
+      color: #fff;
+      background: var(--teal);
+      box-shadow: 6px 6px 0 var(--ink);
+      font-weight: 900;
+      text-decoration: none;
+      transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+    }
+
+    .button:hover {
+      transform: translate(2px, 2px);
+      background: var(--teal-dark);
+      box-shadow: 3px 3px 0 var(--ink);
+    }
+
+    .button:focus-visible,
+    a:focus-visible {
+      outline: 3px solid var(--gold);
+      outline-offset: 4px;
+    }
+
+    .marketplaces {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-top: 26px;
+      padding: 0;
+      list-style: none;
+    }
+
+    .marketplaces li,
+    .pill {
+      border: 1px solid rgba(20, 35, 33, .22);
+      border-radius: 999px;
+      padding: 7px 12px;
+      color: var(--teal-dark);
+      background: rgba(255, 253, 248, .74);
+      font-size: 14px;
+      font-weight: 850;
+    }
+
+    .hero-visual {
+      position: relative;
+    }
+
+    .ledger-card {
+      position: relative;
+      border: 2px solid var(--ink);
+      border-radius: 8px;
+      padding: 16px;
+      background: var(--paper-strong);
+      box-shadow: var(--shadow);
+    }
+
+    .ledger-card::before {
+      content: "";
+      position: absolute;
+      inset: 12px auto 12px 12px;
+      width: 4px;
+      border-radius: 8px;
+      background: repeating-linear-gradient(
+        to bottom,
+        var(--cranberry) 0 18px,
+        transparent 18px 29px,
+        var(--gold) 29px 47px,
+        transparent 47px 58px
+      );
+    }
+
+    .image-frame {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #f5f1ea;
+    }
+
+    .image-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: #fff;
+    }
+
+    .hero-visual .image-frame {
+      aspect-ratio: 4 / 5;
+      margin-left: 18px;
+    }
+
+    .desk-slip {
+      position: absolute;
+      right: -18px;
+      bottom: 22px;
+      width: min(250px, 58%);
+      border: 2px solid var(--ink);
+      border-radius: 8px;
+      padding: 14px;
+      background: #fff;
+      box-shadow: 8px 8px 0 rgba(143, 36, 56, .22);
+      font-size: 14px;
+      font-weight: 850;
+      line-height: 1.25;
+    }
+
+    .desk-slip span {
+      display: block;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 750;
+    }
+
+    .section {
+      position: relative;
+      padding: 78px 0;
+    }
+
+    .section-header {
+      display: grid;
+      grid-template-columns: minmax(0, .8fr) minmax(280px, .42fr);
+      gap: 36px;
+      align-items: end;
+      margin-bottom: 34px;
+    }
+
+    .section-header p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: minmax(280px, .42fr) minmax(0, .58fr);
+      gap: 34px;
+      align-items: stretch;
+    }
+
+    .split.reverse {
+      grid-template-columns: minmax(0, .58fr) minmax(280px, .42fr);
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 253, 248, .78);
+      box-shadow: 0 16px 44px rgba(20, 35, 33, .07);
+    }
+
+    .portrait-panel {
+      display: grid;
+      gap: 14px;
+      align-content: start;
+      padding: 14px;
+    }
+
+    .portrait-panel .image-frame {
+      aspect-ratio: 5 / 6;
+    }
+
+    .caption {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .pain-grid,
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .pain-card,
+    .why-card {
+      min-height: 144px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 20px;
+      background: rgba(255, 253, 248, .82);
+    }
+
+    .pain-card strong,
+    .why-card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 18px;
+      line-height: 1.25;
+    }
+
+    .pain-card p,
+    .why-card p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .services {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .services li {
+      position: relative;
+      min-height: 76px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 17px 18px 17px 48px;
+      background: rgba(255, 253, 248, .84);
+      font-weight: 800;
+    }
+
+    .services li::before {
+      content: "";
+      position: absolute;
+      left: 18px;
+      top: 24px;
+      width: 14px;
+      height: 14px;
+      border: 2px solid var(--teal);
+      border-radius: 4px;
+      background: var(--sage);
+      box-shadow: 4px 4px 0 rgba(197, 145, 58, .35);
+    }
+
+    .margin-card {
+      display: grid;
+      gap: 18px;
+      padding: 24px;
+      background:
+        linear-gradient(135deg, rgba(31, 109, 105, .11), transparent 44%),
+        rgba(255, 253, 248, .88);
+    }
+
+    .metric-row {
+      display: grid;
+      gap: 11px;
+    }
+
+    .metric {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 13px;
+      align-items: center;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 850;
+    }
+
+    .bar {
+      height: 13px;
+      border: 1px solid rgba(20, 35, 33, .22);
+      border-radius: 999px;
+      background: rgba(31, 109, 105, .1);
+    }
+
+    .bar span {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--teal), var(--gold));
+    }
+
+    .work-steps {
+      display: grid;
+      gap: 13px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .work-steps li {
+      display: grid;
+      grid-template-columns: 54px 1fr;
+      gap: 16px;
+      align-items: start;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+      background: rgba(255, 253, 248, .84);
+    }
+
+    .step-num {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border: 2px solid var(--ink);
+      border-radius: 8px;
+      color: #fff;
+      background: var(--cranberry);
+      font-weight: 950;
+      line-height: 1;
+    }
+
+    .work-steps strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 18px;
+      line-height: 1.25;
+    }
+
+    .work-steps p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .final {
+      padding: 86px 0 54px;
+    }
+
+    .final-band {
+      display: grid;
+      grid-template-columns: minmax(0, .62fr) minmax(280px, .38fr);
+      gap: 30px;
+      align-items: center;
+      border: 2px solid var(--ink);
+      border-radius: 8px;
+      padding: 24px;
+      background:
+        linear-gradient(120deg, rgba(215, 230, 217, .78), rgba(255, 253, 248, .95) 58%),
+        var(--paper-strong);
+      box-shadow: 10px 10px 0 rgba(20, 35, 33, .12);
+    }
+
+    .final-copy {
+      padding: 20px 6px 20px 18px;
+    }
+
+    .final-copy p {
+      max-width: 660px;
+      margin: 20px 0 0;
+      color: #34413e;
+      font-size: 19px;
+    }
+
+    .final-band .image-frame {
+      aspect-ratio: 6 / 5;
+    }
+
+    .footer {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 28px 0 38px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 760;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .footer a {
+      color: var(--teal-dark);
+      font-weight: 900;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 4px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .topline {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .nav {
+        width: 100%;
+        overflow-x: auto;
+        padding-bottom: 6px;
+      }
+
+      .hero,
+      .section-header,
+      .split,
+      .split.reverse,
+      .final-band {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding-top: 34px;
+      }
+
+      .hero-visual {
+        max-width: 520px;
+      }
+
+      .section {
+        padding: 58px 0;
+      }
+
+      .split.reverse .portrait-panel {
+        order: -1;
+      }
+    }
+
+    @media (max-width: 680px) {
+      body {
+        font-size: 16px;
+      }
+
+      .container {
+        width: min(100% - 28px, 1140px);
+      }
+
+      .nav {
+        gap: 14px;
+        font-size: 13px;
+      }
+
+      .hero {
+        gap: 30px;
+        padding-bottom: 60px;
+      }
+
+      .lead {
+        font-size: 18px;
+      }
+
+      .hero-actions,
+      .final-actions {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .button {
+        width: 100%;
+      }
+
+      .desk-slip {
+        position: static;
+        width: auto;
+        margin: 14px 0 0 18px;
+      }
+
+      .pain-grid,
+      .why-grid,
+      .services {
+        grid-template-columns: 1fr;
+      }
+
+      .metric {
+        grid-template-columns: 1fr;
+        gap: 6px;
+      }
+
+      .work-steps li {
+        grid-template-columns: 44px 1fr;
+        gap: 12px;
+        padding: 16px;
+      }
+
+      .step-num {
+        width: 38px;
+        height: 38px;
+      }
+
+      .final-band {
+        padding: 16px;
+      }
+
+      .final-copy {
+        padding: 6px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <h1>Привет, мир! Это Гетбух</h1>
+  <div class="page">
+    <header class="container topline" aria-label="Верхняя навигация">
+      <a class="brand" href="#top" aria-label="Гетбух">
+        <span class="brand-mark">Г</span>
+        <span>Гетбух</span>
+      </a>
+      <nav class="nav" aria-label="Разделы страницы">
+        <a href="#services">Услуги</a>
+        <a href="#margin">Маржинальность</a>
+        <a href="#process">Как работаем</a>
+        <a href="#contact">Контакты</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="container hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow">Бухгалтерия для маркетплейсов</p>
+          <h1 id="hero-title">Гетбух ведёт учёт селлеров WB, Ozon и Яндекс Маркета</h1>
+          <p class="lead">
+            Берём на себя бухгалтерию, налоги, документы маркетплейсов и контроль сроков.
+            Вы спокойно занимаетесь бизнесом и понимаете, сколько, когда и за что платить.
+          </p>
+          <div class="hero-actions">
+            <a class="button" href="https://t.me/GetBuhRU">Написать в Telegram</a>
+            <span class="pill">Понятно про налоги, сроки и результат</span>
+          </div>
+          <ul class="marketplaces" aria-label="Маркетплейсы">
+            <li>Wildberries</li>
+            <li>Ozon</li>
+            <li>Яндекс Маркет</li>
+            <li>ИП и ООО</li>
+          </ul>
+        </div>
+
+        <div class="hero-visual" aria-label="Фирменный персонаж Гетбух за компьютером">
+          <div class="ledger-card">
+            <div class="image-frame">
+              <img src="buh-computer.png" alt="Бухгалтер Гетбух работает за компьютером">
+            </div>
+            <div class="desk-slip">
+              Учёт без хаоса в отчётах маркетплейсов
+              <span>документы, налоги, сроки, понятные действия</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="clients" aria-labelledby="clients-title">
+        <div class="container split">
+          <aside class="panel portrait-panel">
+            <div class="image-frame">
+              <img src="buh-document.png" alt="Бухгалтер Гетбух держит документ">
+            </div>
+            <div class="caption">Подходит ИП и ООО: от первых продаж до действующих селлеров с оборотами.</div>
+          </aside>
+
+          <div>
+            <div class="section-header">
+              <div>
+                <p class="eyebrow">Для кого</p>
+                <h2 id="clients-title">Когда учёт должен стать понятным, а не тревожным</h2>
+              </div>
+              <p>
+                Гетбух помогает предпринимателям, которые продают на маркетплейсах,
+                устали от бардака в учёте или хотят сменить бухгалтера.
+              </p>
+            </div>
+
+            <div class="pain-grid">
+              <article class="pain-card">
+                <strong>Непонятно, какие налоги платить</strong>
+                <p>Разбираем сроки, суммы и основания без сложных формулировок.</p>
+              </article>
+              <article class="pain-card">
+                <strong>Есть страх штрафов</strong>
+                <p>Контролируем декларации, уведомления и обязательные платежи.</p>
+              </article>
+              <article class="pain-card">
+                <strong>Документы маркетплейсов живут отдельно</strong>
+                <p>Работаем с отчётами WB, Ozon и Яндекс Маркета как с частью учёта.</p>
+              </article>
+              <article class="pain-card">
+                <strong>Не видно реальной маржинальности</strong>
+                <p>Помогаем смотреть не только на налоги, но и на финансовый результат.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="services" aria-labelledby="services-title">
+        <div class="container">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Услуги</p>
+              <h2 id="services-title">Закрываем бухгалтерию и налоговый контур под ключ</h2>
+            </div>
+            <p>
+              Состав работ прозрачен: от регулярного ведения учёта до восстановления
+              запущенных документов и разовых консультаций.
+            </p>
+          </div>
+
+          <ul class="services">
+            <li>Полное ведение бухгалтерского и налогового учёта под ключ</li>
+            <li>Работа с отчётами и документами маркетплейсов: WB, Ozon, Яндекс Маркет</li>
+            <li>Расчёт налогов, подготовка деклараций и уведомлений, контроль сроков</li>
+            <li>Кадровый учёт и расчёт зарплаты, если есть сотрудники</li>
+            <li>Расчёт реальной маржинальности и финансовых показателей</li>
+            <li>Подбор выгодной системы налогообложения</li>
+            <li>Восстановление запущенного учёта и разовые консультации</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section" id="margin" aria-labelledby="margin-title">
+        <div class="container split reverse">
+          <div class="panel margin-card">
+            <p class="eyebrow">Маржинальность</p>
+            <h2 id="margin-title">Смотрим шире отчётности: налоги, расходы и финансовый результат</h2>
+            <p>
+              Для селлера важно понимать не только, что сдать и оплатить. Важно видеть,
+              какая система налогообложения выгоднее и что происходит с реальной маржинальностью.
+            </p>
+            <div class="metric-row" aria-hidden="true">
+              <div class="metric">
+                <span>Налоги</span>
+                <div class="bar"><span style="width: 68%"></span></div>
+              </div>
+              <div class="metric">
+                <span>Расходы</span>
+                <div class="bar"><span style="width: 48%"></span></div>
+              </div>
+              <div class="metric">
+                <span>Результат</span>
+                <div class="bar"><span style="width: 76%"></span></div>
+              </div>
+            </div>
+          </div>
+
+          <aside class="panel portrait-panel">
+            <div class="image-frame">
+              <img src="buh-chart.png" alt="Бухгалтер Гетбух показывает графики на флипчарте">
+            </div>
+            <div class="caption">Помогаем принимать спокойные решения на основе понятных показателей.</div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section" id="process" aria-labelledby="process-title">
+        <div class="container split">
+          <aside class="panel portrait-panel">
+            <div class="image-frame">
+              <img src="buh-notebook.png" alt="Бухгалтер Гетбух делает записи в блокноте">
+            </div>
+            <div class="caption">Ежемесячный ритм, короткая коммуникация и понятные следующие шаги.</div>
+          </aside>
+
+          <div>
+            <div class="section-header">
+              <div>
+                <p class="eyebrow">Как работаем</p>
+                <h2 id="process-title">Без канцелярита, с одним понятным контактом</h2>
+              </div>
+              <p>
+                Коммуникация в Telegram: коротко, по делу, с проактивными напоминаниями
+                о сроках и платежах.
+              </p>
+            </div>
+
+            <ol class="work-steps">
+              <li>
+                <span class="step-num">1</span>
+                <div>
+                  <strong>Понятный ежемесячный отчёт</strong>
+                  <p>Показываем, что сделано и что нужно от вас.</p>
+                </div>
+              </li>
+              <li>
+                <span class="step-num">2</span>
+                <div>
+                  <strong>Проактивные напоминания</strong>
+                  <p>Заранее предупреждаем о налогах, сроках и платежах.</p>
+                </div>
+              </li>
+              <li>
+                <span class="step-num">3</span>
+                <div>
+                  <strong>Прозрачный состав работ</strong>
+                  <p>Вы понимаете, что входит в сопровождение и за что отвечаем.</p>
+                </div>
+              </li>
+              <li>
+                <span class="step-num">4</span>
+                <div>
+                  <strong>Один контакт по учёту</strong>
+                  <p>Не нужно собирать ответы по разным людям и чатам.</p>
+                </div>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="why" aria-labelledby="why-title">
+        <div class="container">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Почему Гетбух</p>
+              <h2 id="why-title">Специализация на маркетплейсах, а не абстрактная бухгалтерия</h2>
+            </div>
+            <p>
+              Мы говорим понятным языком, работаем на опережение и помогаем
+              законно снижать налоговую нагрузку.
+            </p>
+          </div>
+
+          <div class="why-grid">
+            <article class="why-card">
+              <strong>Понимаем отчёты WB, Ozon и Яндекс Маркета</strong>
+              <p>Отчёты площадок становятся частью управляемого учёта.</p>
+            </article>
+            <article class="why-card">
+              <strong>Заранее предупреждаем о сроках</strong>
+              <p>Не ждём, пока налоговый вопрос превратится в пожар.</p>
+            </article>
+            <article class="why-card">
+              <strong>Объясняем без сложных терминов</strong>
+              <p>Налоги, документы и действия должны быть понятны владельцу бизнеса.</p>
+            </article>
+            <article class="why-card">
+              <strong>Показываем реальную маржинальность</strong>
+              <p>Помогаем видеть расходы, налоги и финансовый результат в одной картине.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="container final" id="contact" aria-labelledby="contact-title">
+        <div class="final-band">
+          <div class="final-copy">
+            <p class="eyebrow">Спокойный учёт</p>
+            <h2 id="contact-title">Сделаем бухгалтерию понятной, предсказуемой и полезной</h2>
+            <p>
+              Не просто сдаём отчётность: помогаем понимать налоги, расходы и финансовый
+              результат, чтобы принимать спокойные решения.
+            </p>
+            <div class="final-actions">
+              <a class="button" href="https://t.me/GetBuhRU">Написать в Telegram</a>
+              <span class="pill">@GetBuhRU</span>
+            </div>
+          </div>
+
+          <div class="image-frame">
+            <img src="buh-coffee.png" alt="Бухгалтер Гетбух с кружкой кофе">
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="container footer">
+      <span>Гетбух — бухгалтерский и налоговый аутсорсинг для селлеров маркетплейсов</span>
+      <span class="footer-links">
+        <a href="https://t.me/GetBuhRU">@GetBuhRU</a>
+        <a href="mailto:info@getbuh.ru">info@getbuh.ru</a>
+      </span>
+    </footer>
+  </div>
 </body>
 </html>
