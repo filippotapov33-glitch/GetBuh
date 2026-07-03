@@ -336,6 +336,16 @@
       align-items: start;
     }
 
+    .section-header--stacked {
+      grid-template-columns: 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .section-header--stacked p {
+      max-width: 620px;
+    }
+
     .split {
       display: grid;
       grid-template-columns: minmax(280px, .42fr) minmax(0, .58fr);
@@ -750,7 +760,7 @@
           </aside>
 
           <div>
-            <div class="section-header">
+            <div class="section-header section-header--stacked">
               <div>
                 <p class="eyebrow">Для кого</p>
                 <h2 id="clients-title">Когда учёт должен стать понятным, а не тревожным</h2>
@@ -852,7 +862,7 @@
           </aside>
 
           <div>
-            <div class="section-header">
+            <div class="section-header section-header--stacked">
               <div>
                 <p class="eyebrow">Как работаем</p>
                 <h2 id="process-title">Без канцелярита, с одним понятным контактом</h2>
