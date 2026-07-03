@@ -446,6 +446,114 @@
       box-shadow: 4px 4px 0 rgba(197, 145, 58, .35);
     }
 
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .price-card {
+      display: grid;
+      gap: 14px;
+      align-content: start;
+      min-height: 100%;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 20px;
+      background: rgba(255, 253, 248, .84);
+    }
+
+    .price-card.featured {
+      border: 2px solid var(--ink);
+      background:
+        linear-gradient(135deg, rgba(215, 230, 217, .68), transparent 58%),
+        rgba(255, 253, 248, .92);
+      box-shadow: 8px 8px 0 rgba(197, 145, 58, .28);
+    }
+
+    .price-card h3 {
+      min-height: 54px;
+    }
+
+    .price {
+      color: var(--teal-dark);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 30px;
+      font-weight: 700;
+      line-height: 1.08;
+    }
+
+    .price span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+      font-size: 13px;
+      font-weight: 850;
+      line-height: 1.3;
+    }
+
+    .price-list {
+      display: grid;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.45;
+    }
+
+    .price-list li {
+      position: relative;
+      padding-left: 18px;
+    }
+
+    .price-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: .55em;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--gold);
+    }
+
+    .marketplace-prices {
+      display: grid;
+      gap: 8px;
+      margin: 0;
+    }
+
+    .marketplace-price-card {
+      margin-top: 14px;
+    }
+
+    .marketplace-prices div {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      border-bottom: 1px solid rgba(20, 35, 33, .12);
+      padding-bottom: 8px;
+      font-weight: 850;
+    }
+
+    .marketplace-prices div:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .marketplace-prices dt,
+    .marketplace-prices dd {
+      margin: 0;
+    }
+
+    .marketplace-prices dd {
+      color: var(--teal-dark);
+      white-space: nowrap;
+    }
+
     .margin-card {
       display: grid;
       gap: 18px;
@@ -626,6 +734,10 @@
         grid-template-columns: 1fr;
       }
 
+      .pricing-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
       .hero {
         padding-top: 34px;
       }
@@ -694,6 +806,7 @@
 
       .pain-grid,
       .why-grid,
+      .pricing-grid,
       .services {
         grid-template-columns: 1fr;
       }
@@ -733,6 +846,7 @@
       </a>
       <nav class="nav" aria-label="Разделы страницы">
         <a href="#services">Услуги</a>
+        <a href="#pricing">Тарифы</a>
         <a href="#margin">Маржинальность</a>
         <a href="#process">Как работаем</a>
         <a href="#contact">Контакты</a>
@@ -838,6 +952,109 @@
             <li>Подбор выгодной системы налогообложения</li>
             <li>Восстановление запущенного учёта и разовые консультации</li>
           </ul>
+        </div>
+      </section>
+
+      <section class="section" id="pricing" aria-labelledby="pricing-title">
+        <div class="container">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Тарифы</p>
+              <h2 id="pricing-title">Пакеты обслуживания с понятной ежемесячной стоимостью</h2>
+            </div>
+            <p>
+              Базовый тариф выбирается по системе налогообложения. Сотрудники, НДС
+              и маркетплейсы добавляются к базовому сопровождению отдельно.
+            </p>
+          </div>
+
+          <div class="pricing-grid">
+            <article class="price-card">
+              <h3>Консультация по налоговой системе</h3>
+              <div class="price">5 000 ₽</div>
+              <ul class="price-list">
+                <li>Подбор выгодной системы налогообложения под вашу ситуацию</li>
+                <li>Таблица с расчётами налогов по разным режимам</li>
+                <li>Ответы на вопросы по налоговому учёту и НДС</li>
+              </ul>
+            </article>
+
+            <article class="price-card featured">
+              <h3>ИП на УСН Доходы 6%</h3>
+              <div class="price">от 9 000 ₽ <span>в месяц, без сотрудников и НДС</span></div>
+              <ul class="price-list">
+                <li>Загрузка и проверка банковской выписки в 1С</li>
+                <li>Закрытие месяца и проверка расчёта налога</li>
+                <li>Уведомления, платёжные поручения, КУДиР и декларация</li>
+              </ul>
+            </article>
+
+            <article class="price-card">
+              <h3>ИП на УСН Доходы-Расходы 15%</h3>
+              <div class="price">от 18 000 ₽ <span>в месяц, без сотрудников и НДС</span></div>
+              <ul class="price-list">
+                <li>Контроль банковских операций и расходов, уменьшающих налог</li>
+                <li>Закрытие месяца и расчёт налоговой базы</li>
+                <li>КУДиР, уведомления, платёжки и декларация</li>
+              </ul>
+            </article>
+
+            <article class="price-card">
+              <h3>АУСН Доходы</h3>
+              <div class="price">от 7 000 ₽ <span>в месяц</span></div>
+              <ul class="price-list">
+                <li>Проверка правильности доходов и расходов</li>
+                <li>Исправление ошибок и отражение взаимозачётов</li>
+                <li>Контроль условий для сохранения АУСН</li>
+              </ul>
+            </article>
+
+            <article class="price-card">
+              <h3>АУСН Доходы-Расходы</h3>
+              <div class="price">от 14 000 ₽ <span>в месяц</span></div>
+              <ul class="price-list">
+                <li>Ежемесячный контроль налоговой базы</li>
+                <li>Проверка доходов, расходов и перенос убытков</li>
+                <li>Расчёт зарплаты и контроль ограничений АУСН</li>
+              </ul>
+            </article>
+
+            <article class="price-card">
+              <h3>Дополнительные блоки</h3>
+              <div class="price">от 1 500 ₽ <span>добавляются к базовому тарифу</span></div>
+              <ul class="price-list">
+                <li>Сотрудники граждане РФ: 1 500 ₽ в месяц за сотрудника</li>
+                <li>НДС 5/7%: 7 000 ₽ в месяц</li>
+                <li>Маркетплейсы: от 1 500 ₽ в месяц</li>
+              </ul>
+            </article>
+          </div>
+
+          <div class="price-card featured marketplace-price-card">
+            <h3>Тарификация маркетплейсов</h3>
+            <dl class="marketplace-prices">
+              <div>
+                <dt>Wildberries</dt>
+                <dd>6 000 ₽</dd>
+              </div>
+              <div>
+                <dt>Ozon</dt>
+                <dd>1 500 ₽</dd>
+              </div>
+              <div>
+                <dt>Яндекс Маркет</dt>
+                <dd>1 500 ₽</dd>
+              </div>
+              <div>
+                <dt>WB + Ozon или Яндекс Маркет</dt>
+                <dd>7 500 ₽</dd>
+              </div>
+              <div>
+                <dt>WB + Ozon + Яндекс Маркет</dt>
+                <dd>9 000 ₽</dd>
+              </div>
+            </dl>
+          </div>
         </div>
       </section>
 
