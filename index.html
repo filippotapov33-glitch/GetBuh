@@ -153,8 +153,10 @@
       margin: 0;
       line-height: 1.04;
       letter-spacing: 0;
-      overflow-wrap: break-word;
-      hyphens: auto;
+      overflow-wrap: normal;
+      word-break: normal;
+      hyphens: manual;
+      text-wrap: pretty;
     }
 
     h1 {
@@ -167,7 +169,7 @@
     h2 {
       max-width: 760px;
       font-family: Georgia, "Times New Roman", serif;
-      font-size: clamp(32px, 4.2vw, 56px);
+      font-size: clamp(30px, 3.25vw, 44px);
       font-weight: 700;
     }
 
@@ -318,8 +320,8 @@
 
     .section-header {
       display: grid;
-      grid-template-columns: minmax(0, .8fr) minmax(280px, .42fr);
-      gap: 36px;
+      grid-template-columns: minmax(0, 1fr) minmax(260px, .34fr);
+      gap: 30px;
       align-items: end;
       margin-bottom: 34px;
     }
@@ -633,6 +635,16 @@
     @media (max-width: 680px) {
       body {
         font-size: 16px;
+      }
+
+      h1 {
+        font-size: clamp(34px, 9.5vw, 48px);
+        line-height: 1.06;
+      }
+
+      h2 {
+        font-size: clamp(27px, 7.4vw, 36px);
+        line-height: 1.08;
       }
 
       .container {
